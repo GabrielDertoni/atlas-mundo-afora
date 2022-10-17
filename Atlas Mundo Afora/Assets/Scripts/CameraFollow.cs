@@ -1,14 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField]
-    public Transform target;
-
-    [SerializeField]
-    public float cameraSpeed = 2f;
+    [SerializeField] public Transform target;
+    [SerializeField] public float cameraSpeed = 2f;
 
     // Start is called before the first frame update
     void Start()
