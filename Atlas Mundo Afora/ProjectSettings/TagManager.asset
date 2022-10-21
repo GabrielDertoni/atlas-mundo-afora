@@ -42,3 +42,33 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG 3
+    uniqueID: 1837229407
+    locked: 0
+  - name: BG 2
+    uniqueID: 3206494901
+    locked: 0
+  - name: BG 1
+    uniqueID: 2501769295
+    locked: 0
+  - name: Tree behinde
+    uniqueID: 2641164125
+    locked: 0
+  - name: Ramps
+    uniqueID: 232212039
+    locked: 0
+  - name: Bottom floor
+    uniqueID: 2030763053
+    locked: 0
+  - name: Top floor
+    uniqueID: 1081985041
+    locked: 0
+  - name: Character
+    uniqueID: 2308687477
+    locked: 0
+  - name: Tree forward
+    uniqueID: 1968728493
+    locked: 0
+  - name: Fog
+    uniqueID: 1256385081
+    locked: 0
