@@ -13,7 +13,8 @@ public class PlayerDeath : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("floor"))
+        int groundLayer = LayerMask.NameToLayer("Ground");
+        if (collision.gameObject.layer == groundLayer)
         {
             GameController.GetInstance().GameOver();
         }
