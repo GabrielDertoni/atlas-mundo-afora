@@ -11,4 +11,11 @@ public class DeathPit : MonoBehaviour
             GameController.GetInstance().GameOver();
         }
     }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            GameController.GetInstance().GameOver();
+        }
+    }
 }

@@ -42,14 +42,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: BG 3
-    uniqueID: 1837229407
-    locked: 0
-  - name: BG 2
-    uniqueID: 3206494901
-    locked: 0
-  - name: BG 1
-    uniqueID: 2501769295
+  - name: Background
+    uniqueID: 1263142359
     locked: 0
   - name: Tree behinde
     uniqueID: 2641164125
