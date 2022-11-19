@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private float m_CumulativeRotation = 0f;
     private int m_CountFlipsWhileInAir = 0;
     private State m_PrevState = State.Airborne;
+    private float m_IsTouchingGroundThreashold = .3f;
 
     // Start is called before the first frame update
     void Start()
@@ -97,15 +98,20 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGroundedWithBackWheel()
     {
         LayerMask mask = LayerMask.GetMask("Ground");
+        RaycastHit2D hit = Physics2D.Raycast(m_BackWheelColider.gameObject.transform.position, Vector2.down, Mathf.Infinity, mask.value);
+        if (!hit.collider) return false;
+        ColliderDistance2D dist = Physics2D.Distance(m_BackWheelColider, hit.collider);
         // TODO: Can only jump when back wheel is touching the ground. Should we require both wheels to be touching? Only one of them?
-        return m_BackWheelColider.IsTouchingLayers(mask);
+        return dist.distance < m_IsTouchingGroundThreashold;
     }
 
     private bool IsGroundedWithFrontWheel()
     {
         LayerMask mask = LayerMask.GetMask("Ground");
-        // TODO: Can only jump when back wheel is touching the ground. Should we require both wheels to be touching? Only one of them?
-        return m_FrontWheelColider.IsTouchingLayers(mask);
+        RaycastHit2D hit = Physics2D.Raycast(m_BackWheelColider.gameObject.transform.position, Vector2.down, Mathf.Infinity, mask.value);
+        if (!hit.collider) return false;
+        ColliderDistance2D dist = Physics2D.Distance(m_FrontWheelColider, hit.collider);
+        return dist.distance < m_IsTouchingGroundThreashold;
     }
 
     // This function will directly manipulate the rigidbody's angular velocity. Use it only when the player is airborne
