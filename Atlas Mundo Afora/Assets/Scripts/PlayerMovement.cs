@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -29,21 +30,13 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetButton("Jump"))
         {
             // Makes the bike lean backwards with player input
-            ApplyTorque(m_Torque);
+            ApplyTorque(m_Torque * Time.deltaTime);
         }
         else if (!IsGroundedWithFrontWheel())
         {
-            // If it is not grounded with both wheels, add a sligth torque forwards
-            ApplyTorque(-m_ComebackTorque);
+            // If it is not grounded with both wheels, just stop rotating
+            rb.angularVelocity = 0f;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        Debug.Log(rb.angularVelocity);
-        if (Mathf.Abs(rb.angularVelocity) > m_MaxAngularVelocity)
-            rb.angularVelocity = Mathf.Sign(rb.angularVelocity) * m_MaxAngularVelocity;
     }
 
     private void Jump()
@@ -65,10 +58,10 @@ public class PlayerMovement : MonoBehaviour
         return m_FrontWheelColider.IsTouchingLayers(mask);
     }
 
+    // This function will directly manipulate the rigidbody's angular velocity. Use it only when the player is airborne
     private void ApplyTorque(float torque)
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (Mathf.Abs(rb.angularVelocity) < m_MaxAngularVelocity)
-            rb.AddTorque(torque);
+        rb.angularVelocity = Mathf.Clamp(rb.angularVelocity + torque / rb.inertia, -m_MaxAngularVelocity, m_MaxAngularVelocity);
     }
 }
