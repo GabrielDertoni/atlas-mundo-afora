@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -25,11 +26,6 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
-        m_PlayerInstance.transform.position = m_SpawnPoint.position;
-        m_PlayerInstance.transform.rotation = m_SpawnPoint.rotation;
-        Rigidbody2D rb = m_PlayerInstance.GetComponent<Rigidbody2D>();
-        rb.velocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-        Debug.Log("Game Over");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
