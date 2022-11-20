@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/BikerTest.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Level1.unity
+    guid: 85e4c930363dfc8499392dfb6e8a1e6a
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 63a990701d8c91e4cae04c9e7c713ad6
+  - enabled: 1
+    path: Assets/Scenes/FinalScene.unity
+    guid: 3d7399cd506304d438fca6ce13acd6db
   m_configObjects: {}

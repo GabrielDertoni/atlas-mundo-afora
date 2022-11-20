@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     private State m_PrevState = State.Airborne;
     private float m_IsTouchingGroundThreashold = .3f;
 
+    // Current state of the system.
+    private State m_State = State.Airborne;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +41,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateCachedVars();
+
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (Input.GetButtonDown("Jump") && IsGroundedWithBackWheel())
+        if (Input.GetButtonDown("Jump") && m_IsGroundedWithBackWheel)
         {
             Jump();
         }
@@ -48,13 +53,56 @@ public class PlayerMovement : MonoBehaviour
             // Makes the bike lean backwards with player input
             ApplyTorque(m_Torque * Time.deltaTime);
         }
-        else if (!IsGroundedWithFrontWheel())
+        else if (!m_IsGroundedWithFrontWheel && !m_HasLanded)
         {
             // If it is not grounded with both wheels, just stop rotating
             rb.angularVelocity = 0f;
+        } else if (m_IsAirborne)
+        {
+            // Try to align with the ground.
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down);
+            if (hit)
+            {
+                float ang = Vector2.Dot(hit.normal, transform.up);
+                Debug.Log(ang);
+            }
         }
 
         DetectFlips();
+    }
+
+    private bool m_IsGroundedWithFrontWheel
+    {
+        get { return (m_State & State.GroundedWithFrontWheel) != 0; }
+    }
+
+    private bool m_IsGroundedWithBackWheel
+    {
+        get { return (m_State & State.GroundedWithBackWheel) != 0; }
+    }
+
+    private bool m_IsAirborne
+    {
+        get { return m_State == State.Airborne; }
+    }
+
+    private bool m_HasLanded
+    {
+        get { return m_PrevState == State.Airborne && m_State != State.Airborne; }
+    }
+
+    private bool m_Jumped
+    {
+        get { return m_PrevState != State.Airborne && m_State == State.Airborne; }
+    }
+
+
+    // Updates some variables to use inside the Update function. Should always be called in the beginning of the Update funciton.
+    private void UpdateCachedVars()
+    {
+        m_PrevState = m_State;
+        m_State = GetState();
+
     }
 
     private State GetState()
@@ -70,24 +118,25 @@ public class PlayerMovement : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
         float delta = Quaternion.Angle(m_PrevRotation, transform.rotation);
-        if (Mathf.Abs(m_CumulativeRotation) > 360f)
-        {
-            // We did a flip! Assum a single flip was made
-            m_CumulativeRotation %= 360f;
-            m_CountFlipsWhileInAir++;
-        }
 
-        State state = GetState();
-        // If the player is not airborne anymore, but it was in the previous frame and there was a flip.
-        if (state != 0 && m_PrevState == 0 && m_CountFlipsWhileInAir > 0)
+        // 270deg already counts as a flip.
+        if (Mathf.Abs(m_CumulativeRotation) > 270f)
+            m_CountFlipsWhileInAir++;
+
+        // We did a flip! Assum a single flip was made
+        if (Mathf.Abs(m_CumulativeRotation) > 360f)
+            m_CumulativeRotation %= 360f;
+
+        if (m_HasLanded && m_CountFlipsWhileInAir > 0)
         {
+            // TODO: Maybe we should give extra impulse if the player did multiple flips.
+            Debug.Log("Boost");
             rb.AddForce(Vector2.right * m_BoostImpulse, ForceMode2D.Impulse);
             m_CountFlipsWhileInAir = 0;
         }
 
         m_CumulativeRotation += delta;
         m_PrevRotation = transform.rotation;
-        m_PrevState = state;
     }
 
     private void Jump()
