@@ -11526,14 +11526,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2941413969273283945, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 2.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 2941413969273283945, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2.56
-      objectReference: {fileID: 0}
     - target: {fileID: 3268982033864418208, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
       propertyPath: m_Name
       value: Bike
@@ -11581,42 +11573,6 @@ PrefabInstance:
     - target: {fileID: 3268982033864418234, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982033864418235, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_Torque
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982034139063408, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_SortingLayer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982035086753298, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982035086753299, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_Radius
-      value: 0.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982035086753299, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.002840587
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982035086753299, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.00000012164213
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982035086753301, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982035196857158, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3268982035755113038, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}

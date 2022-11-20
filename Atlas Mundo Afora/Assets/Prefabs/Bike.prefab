@@ -120,13 +120,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eac5f010cdeece498ff9044dbb98c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 10
-  m_Torque: 10000
+  m_JumpForce: 12
+  m_Torque: 5000
   m_MaxAngularVelocity: 300
-  m_ComebackTorque: 0.2
+  m_ComebackTorque: 500
   m_AngularDrag: 2
+  m_BoostImpulse: 5
   m_BackWheelColider: {fileID: 3268982035755113039}
   m_FrontWheelColider: {fileID: 3268982035086753299}
+  m_PID_ProportionalGain: 1
+  m_PID_DerivativeGain: 0.25
+  m_PID_IntegralGain: 0.000005
 --- !u!1 &3268982034139063410
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +202,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1986279819
-  m_SortingLayer: 8
+  m_SortingLayer: 6
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 20fa10639cd9f1544a87f01424ebe0d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -225,7 +229,7 @@ GameObject:
   - component: {fileID: 3268982035086753298}
   m_Layer: 0
   m_Name: Wheel_front
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -284,7 +288,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1986279819
-  m_SortingLayer: 8
+  m_SortingLayer: 6
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 0682b4acafc11bb4eb78957cb2f9d38e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -310,9 +314,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.00000011920929}
+  m_Offset: {x: -0.002840587, y: -0.00000012164213}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.46
 --- !u!50 &3268982035086753298
 Rigidbody2D:
   serializedVersion: 4
@@ -332,7 +336,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!1 &3268982035196857158
 GameObject:
@@ -348,7 +352,7 @@ GameObject:
   - component: {fileID: 2941413969273283945}
   m_Layer: 0
   m_Name: PlayerSquare
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -407,7 +411,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1986279819
-  m_SortingLayer: 8
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e12c657f3c5f8cc41811afef812be262, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -541,7 +545,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1986279819
-  m_SortingLayer: 8
+  m_SortingLayer: 6
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 2840006bcfc760549ad5f430ce38286f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -589,5 +593,5 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0

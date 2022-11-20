@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,16 +9,16 @@ public class PlayerMovement : MonoBehaviour
 {
     enum State
     {
-        Airborne = 0b00,
+        Airborne               = 0b00,
         GroundedWithFrontWheel = 0b01,
-        GroundedWithBackWheel = 0b10,
+        GroundedWithBackWheel  = 0b10,
         GroundedWithBothWheels = 0b11,
     }
 
     [SerializeField] private float m_JumpForce = 10f;
     [SerializeField] private float m_Torque = 2f;
     [SerializeField] private float m_MaxAngularVelocity = 200f;
-    // [SerializeField] private float m_ComebackTorque = 1f;
+    [SerializeField] private float m_ComebackTorque = 1f;
     [SerializeField] private float m_AngularDrag = 2f;
     [SerializeField] private float m_BoostImpulse = 5f;
     [SerializeField] private Collider2D m_BackWheelColider;
@@ -25,11 +27,19 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion m_PrevRotation;
     private float m_CumulativeRotation = 0f;
     private int m_CountFlipsWhileInAir = 0;
-    private State m_PrevState = State.Airborne;
     private float m_IsTouchingGroundThreashold = .3f;
 
+    private State m_PrevState = State.Airborne;
     // Current state of the system.
     private State m_State = State.Airborne;
+
+    // Variables to use in PID controller
+    [SerializeField] private float m_PID_ProportionalGain = 1f;
+    [SerializeField] private float m_PID_DerivativeGain = .25f;
+    [SerializeField] private float m_PID_IntegralGain = 5e-6f;
+    private float m_LastError = 0f;
+    private float m_AngleIntegral = 0f;
+    private bool m_HasLastValue = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +53,6 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateCachedVars();
 
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (Input.GetButtonDown("Jump") && m_IsGroundedWithBackWheel)
         {
             Jump();
@@ -53,22 +62,51 @@ public class PlayerMovement : MonoBehaviour
             // Makes the bike lean backwards with player input
             ApplyTorque(m_Torque * Time.deltaTime);
         }
-        else if (!m_IsGroundedWithFrontWheel && !m_HasLanded)
-        {
-            // If it is not grounded with both wheels, just stop rotating
-            rb.angularVelocity = 0f;
-        } else if (m_IsAirborne)
-        {
-            // Try to align with the ground.
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down);
-            if (hit)
-            {
-                float ang = Vector2.Dot(hit.normal, transform.up);
-                Debug.Log(ang);
-            }
-        }
 
         DetectFlips();
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateCachedVars();
+
+        if (m_IsAirborne && !Input.GetButton("Jump"))
+        {
+            LayerMask groundLayer = LayerMask.GetMask("Ground");
+            // Try to align with the ground.
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity, groundLayer.value);
+            if (hit)
+                AlignWithGroundPID(hit.normal);
+            else
+                GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        }
+        else
+        {
+            // Reset the PID controller.
+            m_HasLastValue = false;
+        }
+    }
+
+    private void AlignWithGroundPID(Vector2 groundNormal)
+    {
+        // The angle between ourselves and the desired angle.
+        float ang = Vector2.SignedAngle(transform.up, groundNormal);
+        float error = ang / 180f;
+        float P = error * m_PID_ProportionalGain;
+
+        m_AngleIntegral += error / Time.deltaTime;
+        float I = m_AngleIntegral * m_PID_IntegralGain;
+
+        float angDeriv = (error - m_LastError) / Time.deltaTime;
+        float D = 0f;
+        if (m_HasLastValue)  D = angDeriv * m_PID_DerivativeGain;
+        m_LastError = error;
+
+        float value = P + I + D;
+        float torque = m_ComebackTorque * value;
+        ApplyTorque(torque * Time.deltaTime);
+
+        m_HasLastValue = true;
     }
 
     private bool m_IsGroundedWithFrontWheel
