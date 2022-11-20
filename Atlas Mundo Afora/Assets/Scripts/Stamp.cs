@@ -5,11 +5,11 @@ using System;
 
 public class Stamp : MonoBehaviour, ICollectible
 {
-    public static event Action OnStampCollected;
+    [SerializeField] private CollectibleUI StampUI;
+    
     public void Collect()
     {
-        Debug.Log("Stamp collected");
         Destroy(gameObject);
-        OnStampCollected?.Invoke();
+        StampUI.FillStamp();
     }
 }

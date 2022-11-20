@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class CollectibleUI : MonoBehaviour
 {
-    public GameObject stamp1, stamp2, stamp3;
-
-    void Start()
-    {
-        stamp1 = GameObject.Find("Stamp1");
-    }
-
     public void FillStamp()
     {
-        
+        gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
     }
 }
