@@ -66,3 +66,6 @@ TagManager:
   - name: Fog
     uniqueID: 1256385081
     locked: 0
+  - name: Effects
+    uniqueID: 795303797
+    locked: 0

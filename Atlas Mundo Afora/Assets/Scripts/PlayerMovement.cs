@@ -23,11 +23,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float m_BoostImpulse = 5f;
     [SerializeField] private Collider2D m_BackWheelColider;
     [SerializeField] private Collider2D m_FrontWheelColider;
+    [SerializeField] private ParticleSystem m_SpeedLines;
 
     private Quaternion m_PrevRotation;
     private float m_CumulativeRotation = 0f;
     private int m_CountFlipsWhileInAir = 0;
     private float m_IsTouchingGroundThreashold = .3f;
+    // This variable indicates if a flip has been counted but the m_CumulativeRotation variable has not been reset yet.
+    // This is necessary since we want to count 270deg as a flip, but the next flip only occurs at 360+270 deg.
+    private bool m_HasCountedFlip = false;
 
     private State m_PrevState = State.Airborne;
     // Current state of the system.
@@ -54,14 +58,13 @@ public class PlayerMovement : MonoBehaviour
         UpdateCachedVars();
 
         if (Input.GetButtonDown("Jump") && m_IsGroundedWithBackWheel)
-        {
             Jump();
-        }
         else if (Input.GetButton("Jump"))
-        {
             // Makes the bike lean backwards with player input
             ApplyTorque(m_Torque * Time.deltaTime);
-        }
+
+        if (m_Jumped && m_SpeedLines.IsAlive())
+            m_SpeedLines.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
         DetectFlips();
     }
@@ -155,21 +158,28 @@ public class PlayerMovement : MonoBehaviour
     {
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
-        float delta = Quaternion.Angle(m_PrevRotation, transform.rotation);
+        float delta = Vector2.SignedAngle(m_PrevRotation * Vector2.up, transform.up);
 
         // 270deg already counts as a flip.
-        if (Mathf.Abs(m_CumulativeRotation) > 270f)
+        if (Mathf.Abs(m_CumulativeRotation) > 270f && !m_HasCountedFlip)
+        {
             m_CountFlipsWhileInAir++;
+            m_HasCountedFlip = true;
+        }
 
         // We did a flip! Assum a single flip was made
         if (Mathf.Abs(m_CumulativeRotation) > 360f)
+        {
             m_CumulativeRotation %= 360f;
+            m_HasCountedFlip = false;
+        }
 
         if (m_HasLanded && m_CountFlipsWhileInAir > 0)
         {
             // TODO: Maybe we should give extra impulse if the player did multiple flips.
             Debug.Log("Boost");
             rb.AddForce(Vector2.right * m_BoostImpulse, ForceMode2D.Impulse);
+            m_SpeedLines.Play();
             m_CountFlipsWhileInAir = 0;
         }
 
