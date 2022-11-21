@@ -24,6 +24,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Collider2D m_BackWheelColider;
     [SerializeField] private Collider2D m_FrontWheelColider;
     [SerializeField] private ParticleSystem m_SpeedLines;
+    [SerializeField] private Animator animatorChar;
+    [SerializeField] private Animator animatorPedal;
+    [SerializeField] private bool Col = true;
+    [SerializeField] private float Vel = 0;
+    [SerializeField] private AudioSource bikeSoundEffect;
 
     private Quaternion m_PrevRotation;
     private float m_CumulativeRotation = 0f;
@@ -56,6 +61,20 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         UpdateCachedVars();
+        Vel = GetComponent<Rigidbody2D>().velocity[0];
+        Col = m_IsGroundedWithBackWheel;
+
+        animatorChar.SetBool("Collision", Col);
+        animatorChar.SetFloat("Speed", Vel);
+        
+        animatorPedal.SetBool("Collision", Col);
+        animatorPedal.SetFloat("Speed", Vel);
+        
+        if(animatorChar.GetBool("Collision") == false){
+            bikeSoundEffect.Play();
+        }
+
+        //animator.SetFloat("Speed", GetComponent<Rigidbody>().velocity[0]);
 
         if (Input.GetButtonDown("Jump") && m_IsGroundedWithBackWheel)
             Jump();
