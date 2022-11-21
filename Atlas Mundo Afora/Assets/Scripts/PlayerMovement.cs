@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool Col = true;
     [SerializeField] private float Vel = 0;
     [SerializeField] private AudioSource bikeSoundEffect;
+    [SerializeField] private AudioSource howlingSoundEffect;
 
     private Quaternion m_PrevRotation;
     private float m_CumulativeRotation = 0f;
@@ -61,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         UpdateCachedVars();
-        Vel = GetComponent<Rigidbody2D>().velocity[0];
+        Vel = Mathf.Sqrt(Mathf.Pow(GetComponent<Rigidbody2D>().velocity[0], 2) + Mathf.Pow(GetComponent<Rigidbody2D>().velocity[1], 2));
         Col = m_IsGroundedWithBackWheel;
 
         animatorChar.SetBool("Collision", Col);
@@ -72,6 +73,10 @@ public class PlayerMovement : MonoBehaviour
         
         if(animatorChar.GetBool("Collision") == false){
             bikeSoundEffect.Play();
+        }
+
+        if(Vel < 10){
+            howlingSoundEffect.Play();
         }
 
         //animator.SetFloat("Speed", GetComponent<Rigidbody>().velocity[0]);

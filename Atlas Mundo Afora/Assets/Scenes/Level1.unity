@@ -16473,9 +16473,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 44cd23e1034f7014aa005073189bf6fc, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d67771d3238b7094abea9e35486ef964, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.201
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -16571,7 +16571,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8b3fa7dc2da9c9f46bc6489c09ecf88c, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -17763,6 +17763,10 @@ PrefabInstance:
       objectReference: {fileID: 1989813434}
     - target: {fileID: 3268982033864418235, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
       propertyPath: snowSoundEffect
+      value: 
+      objectReference: {fileID: 1989813433}
+    - target: {fileID: 3268982033864418235, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
+      propertyPath: howlingSoundEffect
       value: 
       objectReference: {fileID: 1989813433}
     - target: {fileID: 3268982033864418238, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
