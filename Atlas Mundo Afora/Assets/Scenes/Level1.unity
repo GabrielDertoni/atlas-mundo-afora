@@ -8044,7 +8044,7 @@ GameObject:
   - component: {fileID: 481710163}
   - component: {fileID: 481710162}
   - component: {fileID: 481710161}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pedra 2 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8495,7 +8495,7 @@ GameObject:
   - component: {fileID: 555487085}
   - component: {fileID: 555487084}
   - component: {fileID: 555487083}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pedra 3 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10379,7 +10379,7 @@ GameObject:
   - component: {fileID: 741687069}
   - component: {fileID: 741687068}
   - component: {fileID: 741687067}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pedra 1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11025,7 +11025,7 @@ GameObject:
   - component: {fileID: 791769704}
   - component: {fileID: 791769703}
   - component: {fileID: 791769702}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pedra 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12293,7 +12293,7 @@ GameObject:
   - component: {fileID: 989563327}
   - component: {fileID: 989563326}
   - component: {fileID: 989563325}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pedra 2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16321,7 +16321,7 @@ GameObject:
   - component: {fileID: 1324219028}
   - component: {fileID: 1324219027}
   - component: {fileID: 1324219026}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pedra 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19913,7 +19913,7 @@ GameObject:
   - component: {fileID: 1831195972}
   - component: {fileID: 1831195971}
   - component: {fileID: 1831195970}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pedra 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
