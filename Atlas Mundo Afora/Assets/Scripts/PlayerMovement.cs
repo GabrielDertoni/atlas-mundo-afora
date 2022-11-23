@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private ParticleSystem m_SpeedLines;
 
     private Quaternion m_PrevRotation;
+    private Vector3 m_PrevPosition;
     private float m_CumulativeRotation = 0f;
     private int m_CountFlipsWhileInAir = 0;
     private float m_IsTouchingGroundThreashold = .3f;
@@ -67,6 +68,18 @@ public class PlayerMovement : MonoBehaviour
             m_SpeedLines.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
         DetectFlips();
+        float distance = (transform.position - m_PrevPosition).magnitude;
+        GameController.GetInstance().IncrementDistance(distance);
+        m_PrevPosition = transform.position;
+
+        // We also need to check if the player is outside the spawn point. Otherwise, it will just loop on game over.
+        GameController gameController = GameController.GetInstance();
+        Vector3 spawnPoint = gameController.GetSpawnPoint();
+        if ((transform.position - spawnPoint).magnitude > 5f && GetComponent<Rigidbody2D>().velocity.x <= 0f)
+        {
+            // The player stopped moving forward.
+            gameController.GameOver();
+        }
     }
 
     private void FixedUpdate()
@@ -180,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Boost");
             rb.AddForce(Vector2.right * m_BoostImpulse, ForceMode2D.Impulse);
             m_SpeedLines.Play();
+            GameController.GetInstance().IncrementFlips(m_CountFlipsWhileInAir);
             m_CountFlipsWhileInAir = 0;
         }
 

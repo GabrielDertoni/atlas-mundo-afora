@@ -1735,7 +1735,7 @@ GameObject:
   - component: {fileID: 1895346708}
   - component: {fileID: 1895346707}
   m_Layer: 5
-  m_Name: DistanceCounter (1)
+  m_Name: Time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
