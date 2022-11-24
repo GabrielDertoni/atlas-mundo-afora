@@ -320,7 +320,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: cc8b9b3aa9ff16f43a1fa377d15a1076, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.17
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1603,6 +1603,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 23
       objectReference: {fileID: 0}
+    - target: {fileID: 1989813429, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
+      propertyPath: m_Volume
+      value: 0.17
+      objectReference: {fileID: 0}
     - target: {fileID: 47782090325679403, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.96171516
@@ -2435,7 +2439,9 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.6720999
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1989813429, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
+    - {fileID: 1989813430, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9498a9429512ef548aa46aedb8214b5d, type: 3}
 --- !u!1 &882974701 stripped
 GameObject:
