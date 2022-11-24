@@ -24,12 +24,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Collider2D m_BackWheelColider;
     [SerializeField] private Collider2D m_FrontWheelColider;
     [SerializeField] private ParticleSystem m_SpeedLines;
-    [SerializeField] private Animator animatorChar;
-    [SerializeField] private Animator animatorPedal;
-    [SerializeField] private bool Col = false;
-    [SerializeField] private float Vel = 15;
-    [SerializeField] private AudioSource bikeSoundEffect;
-    [SerializeField] private AudioSource howlingSoundEffect;
+    [SerializeField] private Animator m_AnimatorChar;
+    [SerializeField] private Animator m_AnimatorPedal;
+    [SerializeField] private AudioSource m_BikeSoundEffect;
+    [SerializeField] private AudioSource m_HowlingSoundEffect;
 
     private Quaternion m_PrevRotation;
     private Vector3 m_PrevPosition;
@@ -63,21 +61,20 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         UpdateCachedVars();
-        Vel = Mathf.Sqrt(Mathf.Pow(GetComponent<Rigidbody2D>().velocity[0], 2) + Mathf.Pow(GetComponent<Rigidbody2D>().velocity[1], 2));
-        Col = m_IsGroundedWithBackWheel;
+        float velocity = GetComponent<Rigidbody2D>().velocity.magnitude;
 
-        animatorChar.SetBool("Collision", Col);
-        animatorChar.SetFloat("Speed", Vel);
+        m_AnimatorChar.SetBool("Collision", m_IsGroundedWithBackWheel);
+        m_AnimatorChar.SetFloat("Speed", velocity);
         
-        animatorPedal.SetBool("Collision", Col);
-        animatorPedal.SetFloat("Speed", Vel);
+        m_AnimatorPedal.SetBool("Collision", m_IsGroundedWithBackWheel);
+        m_AnimatorPedal.SetFloat("Speed", velocity);
         
-        if(animatorChar.GetBool("Collision") == false){
-            bikeSoundEffect.Play();
+        if(m_AnimatorChar.GetBool("Collision") == false) {
+            m_BikeSoundEffect.Play();
         }
         
-        if(Vel < 10){
-            howlingSoundEffect.Play();
+        if(velocity < 10) {
+            m_HowlingSoundEffect.Play();
         }
 
         if (Input.GetButtonDown("Jump") && m_IsGroundedWithBackWheel)
@@ -211,8 +208,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_HasLanded && m_CountFlipsWhileInAir > 0)
         {
-            // TODO: Maybe we should give extra impulse if the player did multiple flips.
-            Debug.Log("Boost");
             rb.AddForce(Vector2.right * m_BoostImpulse, ForceMode2D.Impulse);
             m_SpeedLines.Play();
             GameController.GetInstance().IncrementFlips(m_CountFlipsWhileInAir);
