@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     // Number of flips
     private int m_Flips = 0;
     private bool[] m_Stamps = new bool[] { false, false, false };
+    private AudioSource[] allAudioSources;
 
     [SerializeField] private float m_DistanceMultiplier = 1f;
     [SerializeField] private float m_StampsMultiplier = 500f;
@@ -32,6 +33,7 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        allAudioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
         s_Instance = this;
     }
 
@@ -66,6 +68,9 @@ public class GameController : MonoBehaviour
         m_PauseMenu.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
+        foreach( AudioSource audioS in allAudioSources) {
+            audioS.Stop();
+        }
     }
 
     public void ResumeGame()
@@ -73,6 +78,9 @@ public class GameController : MonoBehaviour
         m_PauseMenu.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
+        foreach( AudioSource audioS in allAudioSources) {
+            audioS.Play();
+        }
     }
 
     public void WinLevel()
