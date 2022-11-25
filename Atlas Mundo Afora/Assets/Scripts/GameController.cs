@@ -48,6 +48,14 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void OnEnable() {
+        Stamp.OnCollectible += CollectStamp;
+    }
+
+    private void OnDisable() {
+        Stamp.OnCollectible -= CollectStamp;
+    }
+
     public void GameOver()
     {
         ReloadLevel();
@@ -114,12 +122,9 @@ public class GameController : MonoBehaviour
         m_Flips += increment;
     }
 
-    public void CollectStamp(int which)
+    public void CollectStamp()
     {
-        // If we haven't collected that one already, count it.
-        if (!m_Stamps[which])
-            m_StampsCollected++;
-        m_Stamps[which] = true;
+        m_StampsCollected++;
     }
 
     public bool HasCollectedStamp(int which)
