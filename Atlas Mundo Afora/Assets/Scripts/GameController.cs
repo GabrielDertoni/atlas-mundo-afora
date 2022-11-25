@@ -80,6 +80,8 @@ public class GameController : MonoBehaviour
         Time.timeScale = 0f;
         GameIsPaused = true;
         m_EndLevelMenu.SetActive(true);
+        PlayerPrefs.SetInt("Level1Collectible", m_StampsCollected);
+        PlayerPrefs.Save();
     }
 
     public void ReloadLevel()
